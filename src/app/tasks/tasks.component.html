@@ -1,0 +1,87 @@
+<form>
+  <div class="mb-3 row">
+    <div class="col-xs-3 col-sm-auto">
+      <input id="table-filtering-search" class="form-control" type="text" (keyup)="onKeyPress($event)" />
+    </div>
+    <div class="col-xs-3 col-sm-auto">
+      <select name="" id="" (change)="onStatusChangeFilter($event)">
+        <option *ngFor="let status of status" [value]="status">{{ status }}</option>
+      </select>
+    </div>
+    <div class="col-xs-3 col-sm-auto">
+      <button class="btn btn-lg btn-outline-primary" (click)="open(content)" type="button">Add users</button>
+    </div>
+  </div>
+</form>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">S.No</th>
+      <th scope="col">Name</th>
+      <th scope="col">Status</th>
+      <th scope="col">Change Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        <ngb-highlight [result]="user.name" [term]="filter.value"></ngb-highlight>
+      </td>
+      <td>
+        <ngb-highlight [result]="user.status" [term]="filter.value"></ngb-highlight>
+      </td>
+      <td>
+        <button class="btn btn-primary" (click)="updateUser(user)">{{user.status === 'Active' ? 'Inactive' : 'Active' }}</button>
+      </td>
+    </tr>
+    <strong *ngIf="users.length === 0">No User found .</strong>
+  </tbody>
+</table>
+
+<!---------------------------Modal code----------------->
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="tasksForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>name</label>
+        <input type="text" formControlName="name" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
+        <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+          <div *ngIf="f['name'].errors['required']">name is required</div>
+          <div *ngIf="f['name'].errors['minlength']">
+            name must be at least 6 characters
+          </div>
+          <div *ngIf="f['name'].errors['maxlength']">
+            name must not exceed 20 characters
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Status:- </label>
+        <select name="" id="" formControlName="status" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['status'].errors }">
+          <option *ngFor="let status of status" [value]="status">{{ status }}</option>
+        </select>
+        <div *ngIf="submitted && f['status'].errors" class="invalid-feedback">
+          <div *ngIf="f['status'].errors['required']">status is required</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Register User</button>
+        <button type="button" (click)="onReset()" class="btn btn-warning float-right">
+          Reset
+        </button>
+      </div>
+
+    </form>
+  </div>
+</ng-template>

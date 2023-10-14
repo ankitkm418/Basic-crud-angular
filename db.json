@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Ankit",
+      "status": "Active"
+    },
+    {
+      "name": "adasadas",
+      "status": "Inactive",
+      "id": 2
+    },
+    {
+      "name": "dfdsdsakns",
+      "status": "Active",
+      "id": 3
+    },
+    {
+      "name": "asaasas",
+      "status": "Active",
+      "id": 4
+    }
+  ]
+}
